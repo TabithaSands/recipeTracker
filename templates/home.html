@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Home</title>
+</head>
+<body>
+    <p>URL: {{ recipe['url'] }}</p>
+
+    <p>Ingredients List:</p>
+        <p>{% for item in recipe['ingredients'] %}</p>
+            - {{item}}
+        <p>{% endfor %}</p>
+
+    <p>Steps:</p>
+        <p>{% for step in recipe['steps'] %}</p>
+            - {{step}}
+        <p>{% endfor %}</p>
+
+
+</body>
+</html>
