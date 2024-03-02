@@ -18,24 +18,10 @@ app.layout = html.Div([
     Input('dropdown-selection', 'value')
 )
 def update_graph(value):
-    df["world"] = "world"
     d1 = df[df["continent"] == value]
-    d2 = d1[d1["year"] == 2000]
-    child = d2["country"].to_list()
-    parent = d2["continent"].to_list()
-
-    pop = d2["pop"].to_list()
-    data = dict(
-        country=child,
-        continent=parent,
-        population=pop
-    )
-    return px.sunburst(data,
-                       names='country',
-                       parents='continent',
-                       values='population')
-    # return px.bar(dff, x='year', y='pop')
-    # return px.line(dff, x='year', y='pop')
+    # fig = px.sunburst(d1, path=['continent', 'year', 'country'], values='pop')
+    fig = px.sunburst(d1, path=['continent', 'country', 'year'], values='pop')
+    return fig
 
 
 if __name__ == '__main__':
