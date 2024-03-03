@@ -4,31 +4,33 @@ from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 templates = Jinja2Templates(directory='templates/')
+g_search_string = ""
+g_recipe_details = {}
 
 
-def find_recipe(search_item):
-    print(f"========== Searching for {search_item} ==========")
+def find_recipe(search_item, recipe_url):
     query_result = AllRecipes.search(search_item)
-
-    # Get:
-    # main_recipe_url = query_result[0]['url']
-    # detailed_recipe = AllRecipes.get(main_recipe_url)
-    return query_result
-
-
-@app.get("/")
-def read_root():
-    detailed_recipe = find_recipe("mac and cheese")
-    return templates.TemplateResponse('home.html', context={'request': detailed_recipe, 'recipe': detailed_recipe})
+    if recipe_url:
+        single_result = AllRecipes.get(recipe_url)
+        return query_result, single_result
+    else:
+        return query_result
 
 
 @app.get("/form")
 def form_post(request: Request):
-    result = "Search a recipe"
-    return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
+    if request.query_params:
+        search_item = g_search_string
+        result, recipe_details = find_recipe(search_item, request.query_params["url"])
+        return templates.TemplateResponse('form.html', context={'request': request, 'result': result, 'recipe_details': recipe_details})
+    else:
+        return templates.TemplateResponse('form.html', context={'request': request, 'result': "Search a recipe", 'recipe_details': g_recipe_details})
 
 
 @app.post("/form")
 def form_post(request: Request, search_item: str = Form(...)):
-    result = find_recipe(search_item)
-    return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
+    recipe_url = ''
+    global g_search_string
+    g_search_string = search_item
+    result = find_recipe(g_search_string, recipe_url)
+    return templates.TemplateResponse('form.html', context={'request': request, 'result': result, 'recipe_details': g_recipe_details})
