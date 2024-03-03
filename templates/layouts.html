@@ -8,24 +8,22 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     </head>
     <body>
-    <!--Top Nav Bar-->
+        <!--Top Nav Bar-->
         <div class="ui container">
-            <div class="ui menu">
+            <div class="ui three item menu">
                 <!--Home Icon-->
                 <a href="/form" class="item">HOME</a>
+                <!--Site Name-->
+                <div class="header item">Tabi's Recipes <3</div>
                 <!--Right Menu/Search-->
-                <div class="right menu">
-                    <a class="item">
-                        <form method="post">
-                            <div class="ui input focus">
-                                <input type="text" name="search_item" placeholder="Search recipes...">
-                            </div>
-                        </form>
-                    </a>
-                </div>
+                <a class="item"><form method="post">
+                                <div class="ui input focus">
+                                    <input type="text" name="search_item" placeholder="Search recipes...">
+                                </div>
+                        </form></a>
                 <!--Sign up button-->
             </div>
-    <!--Page Contents-->
+            <!--Page Contents-->
             {% block content %}
             {% endblock %}
         </div>
