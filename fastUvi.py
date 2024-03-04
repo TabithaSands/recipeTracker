@@ -22,6 +22,19 @@ def form_post(request: Request):
     if request.query_params:
         search_item = g_search_string
         result, recipe_details = find_recipe(search_item, request.query_params["url"])
+        r_url = recipe_details["url"]
+        try:
+            if r_url.rsplit('/')[-1] != '':
+                recipe_name = r_url.rsplit('/')[-1]
+                recipe_name = recipe_name.capitalize().split('-')
+            else:
+                recipe_name = r_url.rsplit('/')[-2]
+                recipe_name = recipe_name.capitalize().split('-')
+        except Exception as e:
+            recipe_name = ''
+        recipe_name = ' '.join(recipe_name)
+        print(f"Recipe name: {recipe_name}")
+        recipe_details["name"] = recipe_name
         return templates.TemplateResponse('form.html', context={'request': request, 'result': result, 'recipe_details': recipe_details})
     else:
         return templates.TemplateResponse('form.html', context={'request': request, 'result': "Search a recipe", 'recipe_details': g_recipe_details})

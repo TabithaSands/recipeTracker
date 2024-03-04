@@ -2,19 +2,20 @@
 {% extends "layouts.html" %}
 
 {% block content %}
-    <div class="ui grid">
+    <div class="ui equal width center aligned padded grid">
+        <!--   front page search bar     -->
         {% if "Search a recipe" in result %}
             <div class="column">
-                <form method="post">
-                    <input type="text" name="search_item" class="form-control"/>
-                </form>
-                <p> Search for recipes! </p>
+                <div class="ui segment">
+                    <form method="post">
+                        <div class="ui input focus">
+                            <input type="text" name="search_item" placeholder="Search recipes...">
+                        </div>
+                    </form>
+                </div>
             </div>
         {% else %}
             <div class="column left" style="width:30%">
-                <form method="post">
-                        <input type="text" name="search_item" class="form-control"/>
-                </form>
                 <table>
                     {% for item in result %}
                         <tr>
@@ -24,17 +25,20 @@
                     {% endfor %}
                 </table>
             </div>
-            <div class="column right" style="width:70%">
-            {{recipe_details["name"]}}
-            <br>
-            {% for item in recipe_details["ingredients"] %}
-                -{{item}}<br>
-            {% endfor %}
-            <br>
-            {% for step in recipe_details["steps"] %}
-                -{{step}}<br>
-            {% endfor %}
-        </div>
+            <div class="column right left aligned" style="width:70%">
+                <h1>{{recipe_details["name"]}}</h1><br>
+                <ul>
+                    {% for item in recipe_details["ingredients"] %}
+                        <li>  {{ item }}</li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <ul>
+                    {% for step in recipe_details["steps"] %}
+                        <li>  {{ step }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
